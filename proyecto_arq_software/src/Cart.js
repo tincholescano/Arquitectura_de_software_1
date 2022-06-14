@@ -1,5 +1,6 @@
 import React, { useState, List, Checkbox} from "react";
 import "./Cart.css";
+import "./css/materialize.css";
 import logo from "./images/home.svg"
 import cart from "./images/cart.svg"
 import Cookies from "universal-cookie";
@@ -120,28 +121,29 @@ function showProducts(products){
 
   
 
-   <div>
-   <div obj={product} key={product.product_id} className="product">
-    <div>
-      <img width="128px" height="128px" src={product.picture_url}  onError={(e) => (e.target.onerror = null, e.target.src = "./images/default.jpg")}/>
+  <div class="row product">
+    <hr></hr>
+    <div obj={product} key={product.product_id} className="product">
+      <div class="col s4">
+        <img width="auto" height="300px" src={product.picture_url}  onError={(e) => (e.target.onerror = null, e.target.src = "./images/default.jpg")}/>
+      </div>
+      <div class="col s4">
+      <h3 className="name">{product.name}</h3>
+      <h4 className="price">Precio: {"$" + product.base_price}</h4>
+      <div className="right">
+        <a className="category">{product.category.name}</a>
+      </div>
+      </div>
     </div>
-    <a className="name">{product.name}</a>
-    <a className="price">{"$" + product.base_price}</a>
-    <div className="right">
-      <a className="category">{product.category.name}</a>
+    <div className="quantity" class="col s2 right">
+      <select id={"removeSelect" + product.product_id}>
+        {getOptions(product.quantity)}
+      </select>
+      <a class="waves-effect waves-light btn-large yellow black-text" className="remove" onClick={() => remove(document.getElementById("removeSelect" + product.product_id).value, product.product_id)}>Eliminar   <i class="material-icons">backspace</i></a>
+      <h5 className="amount"> Cantidad: {product.quantity}</h5>
+      <h5 className="subtotal"> Subtotal: ${product.quantity * product.base_price} </h5>
     </div>
-   </div>
-   <div className="quantity">
-     <h3 className="Remove"> Borrar items </h3>
-     <select id={"removeSelect" + product.product_id}>
-      {getOptions(product.quantity)}
-     </select>
-     <button className="remove" onClick={() => remove(document.getElementById("removeSelect" + product.product_id).value, product.product_id)}>x</button>
-     <h1 className="amount"> Cantidad: </h1>
-     <h1 className="number"> {product.quantity} </h1>
-     <h1 className="subtotal"> Subtotal: ${product.quantity * product.base_price} </h1>
-  </div>
-   </div>
+</div>
  )
 
 }
@@ -200,17 +202,27 @@ function Cart(){
   )
 
   const renderOrderButton = (
-    <div className="emptySpace">
-      <span> Total: ${total} </span>
-      <button class="waves-effect waves-light btn yellow black-text" onClick={() => buy(cartProducts)}>FINALIZAR COMPRA</button>
-    </div>
+    <footer class="page-footer yellow accent-2">
+      <div class="row">
+        <div class="col s2 right">
+          <ul>
+            <li><a class="btn-large waves-effect waves-light btn yellow black-text" onClick={() => buy(cartProducts)}>FINALIZAR COMPRA</a></li>
+          </ul>
+        </div>
+        <div class="col s4 left">
+          <ul>
+            <li><h3 class="black-text"> Total: ${total} </h3></li>
+          </ul>
+        </div>
+      </div>
+  </footer>
   )
 
   return (
     <div className="cart">
       <nav class=" yellow accent-2 ">
         <div class="nav-wrapper">
-          <a href="/" class="brand-logo center blue-text text-darken-2">Tienda Libre</a>
+          <a href="/" class="brand-logo center blue-text text-darken-2"><img src={logo} width="50px" height="70px"/> </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a class="black-text" onClick={logout}>Cerrar Sesion</a></li>
           </ul>
@@ -220,7 +232,7 @@ function Cart(){
 
 
       <div id="main">
-        {Cookie.get("cart") ? (Cookie.get("user_id") > -1 ? showProducts(cartProducts) : renderEmptyCart) : <a class="yellow blue-text btn-large " href="/"> CARRITO VACIO, PRESIONE PARA AGREGAR UN PRODUCTO</a>}
+        {Cookie.get("cart") ? (Cookie.get("user_id") > -1 ? showProducts(cartProducts) : renderEmptyCart) : <a class="yellow blue-text btn-large" href="/"> CARRITO VACIO, PRESIONE PARA AGREGAR UN PRODUCTO</a>}
         {Cookie.get("cart") && Cookie.get("user_id") > -1 ? renderOrderButton : <span/>}
 
 

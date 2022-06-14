@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
+import "./css/materialize.css";
 import logo from "./images/home.svg"
 import Cookies from "universal-cookie";
 

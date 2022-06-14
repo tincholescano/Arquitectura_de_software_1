@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Home.css";
+import "./css/materialize.css"
 import logo from "./images/home.svg"
 import cart from "./images/cart.svg"
 import Cookies from "universal-cookie";
@@ -119,7 +120,7 @@ function showProducts(products, setCartItems){
         </div>
         <div class="product-content">
           <span class="text-blue"><a className="name">{product.name}</a></span>
-          <p>Cantidad disponible: {product.description}</p>
+          <p>Cantidad disponible: {product.stock}</p>
           <p>Precio: ${product.base_price}</p>
         </div>
         <div class="product-action">
@@ -198,38 +199,32 @@ function Home() {
 
   const login = (
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a onClick={gotocart} class="black-text">Carrito</a></li>
+      <li><a onClick={gotocart} class="black-text"><i class="material-icons black-text">shopping_cart</i></a></li>
+      <li><p class="black-text">{cartItems > 0 ? cartItems : 0}</p></li>
       <li><a onClick={logout} class="black-text">Cerrar Sesion</a></li>
     </ul>
   )
 
   return (
     <div className="home">
-      
       <nav class=" yellow accent-2 ">
         <div class="nav-wrapper">
-          <a href="/" class="brand-logo center blue-text text-darken-2">Tienda Libre</a>
+            <form class="col s12">
+              <div class="input-field">
+                <input id="search" type="search" required onChange={search}/>
+                <label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
+                <i class="material-icons">close</i>
+              </div>
+            </form>
+          <a href="/" class="brand-logo center blue-text text-darken-2"><img src={logo} width="50px" height="70px" /></a> 
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li>{isLogged ? login : <a onClick={gotologin} class="black-text">Iniciar Sesion</a>}</li>
           </ul>
         </div>
-        <div class="nav-content ">
-          <form>
-            <div class="input-field">
-              <input class="yellow black-text" id="search" type="search" required onChange={search}/>
-              <label class="label-icon" for="search"><i class="material-icons blue-text">Buscar</i></label>
-              <i class="material-icons">X</i>
-            </div>
-          </form>
-        </div>
       </nav>
-      <br></br>
-      <br></br>
       <div class="row" id="main">
         {Cookie.get("category") > 0 ? <a className="categoryFilter"> {category.name} <button className="delete" onClick={deleteCategory}>X</button> </a> : <a/>}
         {products.length > 0 ? showProducts(products, setCartItems) : <a> </a>}
-        
-
       </div>
 
       <div id="mySidenav" className="sidenav">

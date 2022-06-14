@@ -44,24 +44,25 @@ function logout(){
 
 function showProducts(products){
   return products.map((product) =>
-   <div>
-   <div obj={product} key={product.product_id} className="product">
-    <div>
-      <img width="128px" height="128px" src={product.picture_url}  onError={(e) => (e.target.onerror = null, e.target.src = "../images/default.jpg")}/>
+  <div class="row product">
+    <hr></hr>
+    <div obj={product} key={product.product_id} className="product">
+      <div class="col s4">
+        <img width="auto" height="300px" src={product.picture_url}  onError={(e) => (e.target.onerror = null, e.target.src = "./images/default.jpg")}/>
+      </div>
+      <div class="col s4">
+      <h3 className="name">{product.name}</h3>
+      <h4 className="price">Precio: {"$" + product.base_price}</h4>
+      <div className="right">
+        <a className="category">{product.category.name}</a>
+      </div>
+      </div>
     </div>
-    <a className="name">{product.name}</a>
-    <a className="price">{"$" + product.base_price}</a>
-    
-    <div className="right">
-      <a className="category">{product.category.name}</a>
+    <div className="quantity" class="col s2 right">
+      <h5 className="amount"> Cantidad: {product.quantity}</h5>
+      <h5 className="subtotal"> Subtotal: ${product.quantity * product.base_price} </h5>
     </div>
-   </div>
-   <div className="quantity">
-     <h1 className="amount"> Cantidad: </h1>
-     <h1 className="number"> {product.quantity} </h1>
-     <h1 className="subtotal"> Subtotal: ${product.quantity * product.base_price} </h1>
-  </div>
-   </div>
+</div>
  )
 
 }
@@ -123,10 +124,11 @@ function Order(){
 
   const complete = (
     <div>
-    <div> ORDEN ENVIADA</div>
+      <div class="row">
+        <h1 class="blue-text col s6">Pedido realizado</h1>
+        <h1 class="blue-text right">Total: ${total}</h1>
+      </div>
     {showProducts(orderProducts)}
-
-    <div> Total: ${total} </div>
     </div>
   )
 
@@ -141,10 +143,14 @@ function Order(){
 
   return (
     <div className="order">
-      <div className="topnav">
-        <img src={logo} width="80px" height="80px" id="logo" onClick={()=>goto("/")} />
-        {isLogged ? login : <a id="login" onClick={() => goto("/login")}>Login</a>}
-      </div>
+      <nav class=" yellow accent-2 ">
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo center blue-text text-darken-2"><img src={logo} width="50px" height="70px" /></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a class="black-text" onClick={logout}>Cerrar Sesion</a></li>
+          </ul>
+        </div>
+      </nav>
 
 
 
